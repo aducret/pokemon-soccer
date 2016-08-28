@@ -1,33 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
     public KeyCode up;
     public KeyCode down;
     public KeyCode left;
     public KeyCode right;
-    public float speed;
 
-    private Rigidbody2D rb2d;
-    
+    public float speed;
+    public float jumpSpeed;
+    public float gravity = 20.0F;
+
+    private Rigidbody2D rb;
+    private bool isJumping = false;
+
     void Start ()
     {
-        rb2d = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
 	}
-	
-	void Update () {
+    
+	void Update ()
+    {   
         if (Input.GetKey(left))
         {
-            transform.localPosition = new Vector3(transform.localPosition.x - speed, transform.localPosition.y, transform.localPosition.z);
+            transform.localPosition = new Vector2(transform.localPosition.x - speed, transform.localPosition.y);
         }
         else if (Input.GetKey(right))
         {
-            transform.localPosition = new Vector3(transform.localPosition.x + speed, transform.localPosition.y, transform.localPosition.z);
+            transform.localPosition = new Vector2(transform.localPosition.x + speed, transform.localPosition.y);
         }
 
-        if (Input.GetKey(up))
+        if (rb.position.y <= 0)
         {
-            rb2d.AddForce(new Vector2(0f, 50f));
+            isJumping = false;
         }
+
+        // TODO: Deberia chequear si esta tocando un objeto para poder saltar.
+        // Lo que hago ahora es ver si estoy abajo del 0.
+        if (Input.GetKey(up) && !isJumping)
+        {
+            isJumping = true;
+            rb.AddForce(new Vector2(0f, jumpSpeed));
+        }
+
     }
+    
+
 }
