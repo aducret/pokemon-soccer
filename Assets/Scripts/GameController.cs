@@ -12,18 +12,18 @@ public class GameController : MonoBehaviour
     private Vector3 playerRightOriginalPosition;
     private Vector3 pokeBallOriginalPosition;
 
+    private GameObject playerLeft;
+    private GameObject playerRight;
+    private GameObject pokeball;
+
     private int leftScore = 0;
     private int rightScore = 0;
 
 	void Start()
     {
-        savePositions();
+        initializeObjects();
+        saveOriginalPositions();
         updateTexts();
-    }
-	
-	void Update()
-    {
-
     }
 
     public void updateLeftScore() 
@@ -45,21 +45,31 @@ public class GameController : MonoBehaviour
         restartPositions();
     }
 
-    private void savePositions()
+    private void initializeObjects()
     {
-        playerLeftOriginalPosition = GameObject.FindWithTag("PlayerLeft").transform.position;
-        playerRightOriginalPosition = GameObject.FindWithTag("PlayerRight").transform.position;
-        pokeBallOriginalPosition = GameObject.FindWithTag("PokeBall").transform.position;
+        playerLeft = GameObject.FindWithTag("PlayerLeft");
+        playerRight = GameObject.FindWithTag("PlayerRight");
+        pokeball = GameObject.FindWithTag("PokeBall");
+    }
+
+    private void saveOriginalPositions()
+    {
+        playerLeftOriginalPosition = playerLeft.transform.position;
+        playerRightOriginalPosition = playerRight.transform.position;
+        pokeBallOriginalPosition = pokeball.transform.position;
     }
 
     private void restartPositions()
     {
-        GameObject.FindWithTag("PlayerLeft").transform.position = playerLeftOriginalPosition;
-        GameObject.FindWithTag("PlayerRight").transform.position = playerRightOriginalPosition;
-        GameObject.FindWithTag("PokeBall").transform.position = pokeBallOriginalPosition;
-        GameObject.FindWithTag("PokeBall").GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        GameObject.FindWithTag("PokeBall").GetComponent<Rigidbody2D>().angularVelocity = 0;
-        GameObject.FindWithTag("PokeBall").GetComponent<Rigidbody2D>().rotation = 0;
+        playerLeft.transform.position = playerLeftOriginalPosition;
+
+        playerRight.transform.position = playerRightOriginalPosition;
+
+        pokeball.transform.position = pokeBallOriginalPosition;
+        Rigidbody2D pokeballRB = pokeball.GetComponent<Rigidbody2D>();
+        pokeballRB.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        pokeballRB.GetComponent<Rigidbody2D>().angularVelocity = 0;
+        pokeballRB.GetComponent<Rigidbody2D>().rotation = 0;
     }
 
 }

@@ -11,11 +11,6 @@ public class GoalController : MonoBehaviour {
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
         gameController = gameControllerObject.GetComponent<GameController>();
 	}
-	
-	void Update ()
-    {
-
-	}
 
     void OnTriggerEnter2D(Collider2D collider)
     {
