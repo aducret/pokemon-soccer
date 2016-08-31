@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,9 +9,10 @@ public class PlayerController : MonoBehaviour
     public KeyCode left;
     public KeyCode right;
 
+    public Text score;
+
     public float speed;
     public float jumpSpeed;
-    public float gravity = 20.0F;
 
     private Rigidbody2D rb;
     private bool isJumping = false;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
     void Start ()
     {
         rb = GetComponent<Rigidbody2D>();
+        score = GetComponent<Text>();
 	}
     
 	void Update ()
