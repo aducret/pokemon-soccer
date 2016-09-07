@@ -4,7 +4,9 @@ using System.Collections;
 
 public class GameController : MonoBehaviour 
 {
+    public Text winText;
     public KeyCode restart;
+    public int winningScore;
 
     public Text playerLeftScore;
     public Text playerRightScore;
@@ -18,6 +20,7 @@ public class GameController : MonoBehaviour
     private GameObject playerRight;
     private GameObject pokeball;
 	private System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+    private bool gameOver = false;
     private bool goal = false;
     private int leftScore = 0;
     private int rightScore = 0;
@@ -27,12 +30,12 @@ public class GameController : MonoBehaviour
     {
         initializeObjects();
         saveOriginalPositions();
-        updateTexts();
+        updateScoreTexts();
     }
 
 	void Update()
 	{
-		if (timer.IsRunning && timer.ElapsedMilliseconds > 2000) 
+		if (timer.IsRunning && timer.ElapsedMilliseconds > 2000 && !gameOver) 
 		{
 			timer.Stop();
 			restartPositions();
@@ -43,14 +46,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKey(restart))
         {
-            timer.Stop();
-            restartPositions();
-            Time.timeScale = 1;
-            goalText.text = emptyText;
-            goal = false;
-            leftScore = 0;
-            rightScore = 0;
-            updateTexts();
+            restartGame();
         }
 	}
 
@@ -60,8 +56,17 @@ public class GameController : MonoBehaviour
         {
             goal = true;
             leftScore++;
-		    goalText.text = "GOOOOOOOAL of Player Left";
-            updateTexts();
+            updateScoreTexts();
+            if (leftScore == winningScore)
+            {
+                winText.text = "Player Left Wins!";
+                gameOver = true;
+                Invoke("restartGame", 1);
+            }
+            else
+            {
+                goalText.text = "GOOOOOOOAL of Player Left";
+            }          
 		    startGoalTimer();
         }
     }
@@ -72,13 +77,22 @@ public class GameController : MonoBehaviour
         {
             goal = true;
             rightScore++;
-            goalText.text = "GOOOOOOOAL of Player Right";
-            updateTexts();
+            updateScoreTexts();
+            if (rightScore == winningScore)
+            {
+                winText.text = "Player Right Wins!";
+                gameOver = true;
+                Invoke("restartGame", 1);
+            }
+            else
+            {
+                goalText.text = "GOOOOOOOAL of Player Right";
+            }
             startGoalTimer();
         }
     }
 
-    private void updateTexts()
+    private void updateScoreTexts()
     {
         playerLeftScore.text = "Score: " + leftScore;
         playerRightScore.text = "Score: " + rightScore;
@@ -120,4 +134,22 @@ public class GameController : MonoBehaviour
         pokeballRB.GetComponent<Rigidbody2D>().rotation = 0;
     }
 
+    private void restartGame()
+    {
+        gameOver = false;
+        timer.Stop();
+        restartPositions();
+        Time.timeScale = 1;
+        goalText.text = emptyText;
+        goal = false;
+        restartScores();
+        winText.text = emptyText;
+    }
+
+    private void restartScores()
+    {
+        leftScore = 0;
+        rightScore = 0;
+        updateScoreTexts();
+    }
 }
