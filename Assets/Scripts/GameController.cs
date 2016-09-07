@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
         {
             goal = true;
             leftScore++;
-		    goalText.text = "GOOOOOOOAL of Gary";
+		    goalText.text = "GOOOOOOOAL of Player Left";
             updateTexts();
 		    startGoalTimer();
         }
@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour
         {
             goal = true;
             rightScore++;
-            goalText.text = "GOOOOOOOAL of Ash";
+            goalText.text = "GOOOOOOOAL of Player Right";
             updateTexts();
             startGoalTimer();
         }
