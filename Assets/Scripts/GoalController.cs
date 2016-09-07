@@ -4,6 +4,7 @@ using System.Collections;
 public class GoalController : MonoBehaviour {
 
     public string position;
+
     private GameController gameController;
 
 	void Start ()
@@ -14,6 +15,7 @@ public class GoalController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider)
     {
+
         if (collider.CompareTag("PokeBall"))
         {
             if (position == "left")

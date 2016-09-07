@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     private GameObject playerRight;
     private GameObject pokeball;
 	private System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
-
+    private bool goal = false;
     private int leftScore = 0;
     private int rightScore = 0;
 	private static string emptyText = "";
@@ -37,23 +37,32 @@ public class GameController : MonoBehaviour
 			restartPositions();
 			Time.timeScale = 1;
 			goalText.text = emptyText;
-		}
+            goal = false;
+        }
 	}
 
     public void updateLeftScore() 
     {
-        leftScore++;
-		goalText.text = "GOOOOOOOAL of Gary";
-        updateTexts();
-		startGoalTimer();
+        if (!goal)
+        {
+            goal = true;
+            leftScore++;
+		    goalText.text = "GOOOOOOOAL of Gary";
+            updateTexts();
+		    startGoalTimer();
+        }
     }
 
     public void updateRightScore()
     {
-        rightScore++;
-		goalText.text = "GOOOOOOOAL of Ash";
-        updateTexts();
-		startGoalTimer();
+        if (!goal)
+        {
+            goal = true;
+            rightScore++;
+            goalText.text = "GOOOOOOOAL of Ash";
+            updateTexts();
+            startGoalTimer();
+        }
     }
 
     private void updateTexts()
