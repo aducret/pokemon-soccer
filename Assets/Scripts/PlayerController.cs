@@ -9,44 +9,54 @@ public class PlayerController : MonoBehaviour
     public KeyCode left;
     public KeyCode right;
 
-    public Text score;
-
     public float speed;
-    public float jumpSpeed;
+    public float jumpForce;
+    public int maxNumOfJumps = 1;
 
     private Rigidbody2D rb;
-    private bool isJumping = false;
+    private bool jumpPressed = false;
+    private int jumpNumber = 0;    
 
-    void Start ()
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        score = GetComponent<Text>();
 	}
     
-	void Update ()
-    {   
+	void Update()
+    {
         if (Input.GetKey(left))
         {
-            transform.localPosition = new Vector2(transform.localPosition.x - speed, transform.localPosition.y);
+            rb.velocity = new Vector2(-speed, rb.velocity.y);
         }
         else if (Input.GetKey(right))
         {
-            transform.localPosition = new Vector2(transform.localPosition.x + speed, transform.localPosition.y);
+            rb.velocity = new Vector2(speed, rb.velocity.y);
         }
-
-        if (rb.position.y <= 0)
+        else
         {
-            isJumping = false;
+            rb.velocity = new Vector2(0f, rb.velocity.y);
         }
 
-        // TODO: Deberia chequear si esta tocando un objeto para poder saltar.
-        // Lo que hago ahora es ver si estoy abajo del 0.
-        if (Input.GetKey(up) && !isJumping)
+        if (jumpNumber < maxNumOfJumps && Input.GetKeyDown(up))
         {
-            isJumping = true;
-            rb.AddForce(new Vector2(0f, jumpSpeed));
+            print("jump pressed");
+            jumpPressed = true;
+            jumpNumber++;
         }
+    }
 
+    void FixedUpdate()
+    {
+        if (jumpPressed)
+        {
+            rb.AddForce(Vector2.up * jumpForce);
+            jumpPressed = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        jumpNumber = 0;
     }
 
 }
