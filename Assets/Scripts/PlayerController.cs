@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
 
         if (jumpNumber < maxNumOfJumps && Input.GetKeyDown(up))
         {
-            print("jump pressed");
             jumpPressed = true;
             jumpNumber++;
         }
