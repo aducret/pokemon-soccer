@@ -4,6 +4,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour 
 {
+    public KeyCode restart;
 
     public Text playerLeftScore;
     public Text playerRightScore;
@@ -38,6 +39,18 @@ public class GameController : MonoBehaviour
 			Time.timeScale = 1;
 			goalText.text = emptyText;
             goal = false;
+        }
+
+        if (Input.GetKey(restart))
+        {
+            timer.Stop();
+            restartPositions();
+            Time.timeScale = 1;
+            goalText.text = emptyText;
+            goal = false;
+            leftScore = 0;
+            rightScore = 0;
+            updateTexts();
         }
 	}
 
@@ -95,8 +108,10 @@ public class GameController : MonoBehaviour
     private void restartPositions()
     {
         playerLeft.transform.position = playerLeftOriginalPosition;
+        playerLeft.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         playerRight.transform.position = playerRightOriginalPosition;
+        playerRight.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         pokeball.transform.position = pokeBallOriginalPosition;
         Rigidbody2D pokeballRB = pokeball.GetComponent<Rigidbody2D>();
