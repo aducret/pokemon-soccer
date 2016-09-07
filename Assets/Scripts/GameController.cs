@@ -46,7 +46,10 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKey(restart))
         {
-            restartGame();
+            if (!gameOver)
+            {
+                restartGame();
+            }
         }
 	}
 
